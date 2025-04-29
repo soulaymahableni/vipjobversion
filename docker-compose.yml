@@ -1,0 +1,51 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "root123"  # Changed to a simpler password for development
+      MYSQL_DATABASE: vipjob
+      MYSQL_USER: "vipjob_user"
+      MYSQL_PASSWORD: "vipjob123"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    networks:
+      - vipjob-network
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=troudishedy6@gmail.com
+      - N8N_BASIC_AUTH_PASSWORD=chadi1A&
+      - DB_TYPE=mysql
+      - DB_MYSQL_HOST=mysql
+      - DB_MYSQL_PORT=3306
+      - DB_MYSQL_DATABASE=vipjob
+      - DB_MYSQL_USER=vipjob_user
+      - DB_MYSQL_PASSWORD=vipjob123
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - NODE_ENV=production
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - mysql
+    restart: always
+    networks:
+      - vipjob-network
+
+volumes:
+  mysql_data:
+  n8n_data:
+
+networks:
+  vipjob-network:
+    driver: bridge

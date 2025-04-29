@@ -1,0 +1,198 @@
+<div class="flex h-screen overflow-hidden bg-gray-100">
+    {{> sidebar }} <!-- Inclusion du sidebar -->
+
+    <div class="flex-1 flex flex-col bg-white">
+        {{> header }} <!-- Inclusion du header -->
+
+        <!-- Main content -->
+        <div class="flex-1 p-6 space-y-6">
+            <!-- Dashboard Header -->
+            <header>
+                <h1 class="text-4xl font-semibold text-gray-800">Dashboard</h1>
+                <p class="text-lg text-gray-500">Your business metrics at a glance</p>
+            </header>
+
+            <!-- Stats Overview Section -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Client Count -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center hover:shadow-xl transition duration-300">
+                    <h2 class="text-xl font-semibold text-gray-600">Clients</h2>
+                    <p class="text-4xl font-bold text-green-500">1,245</p>
+                    <p class="text-sm text-gray-400">Total Clients</p>
+                </div>
+
+                <!-- Offers Count -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center hover:shadow-xl transition duration-300">
+                    <h2 class="text-xl font-semibold text-gray-600">Offers</h2>
+                    <p class="text-4xl font-bold text-indigo-600">300</p>
+                    <p class="text-sm text-gray-400">Active Offers</p>
+                </div>
+
+                <!-- New Clients (Example) -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center hover:shadow-xl transition duration-300">
+                    <h2 class="text-xl font-semibold text-gray-600">New Clients</h2>
+                    <p class="text-4xl font-bold text-blue-500">45</p>
+                    <p class="text-sm text-gray-400">This Week</p>
+                </div>
+
+                <!-- Sales Stats (Example) -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center text-center hover:shadow-xl transition duration-300">
+                    <h2 class="text-xl font-semibold text-gray-600">Sales Growth</h2>
+                    <p class="text-4xl font-bold text-yellow-500">+10%</p>
+                    <p class="text-sm text-gray-400">Since Last Month</p>
+                </div>
+            </div>
+
+            <!-- Advanced Charts Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Line Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h2 class="font-semibold text-lg mb-4 text-gray-700">Sales Overview</h2>
+                    <canvas id="salesChart"></canvas>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h2 class="font-semibold text-lg mb-4 text-gray-700">Revenue by Region</h2>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+
+                <!-- Donut Chart (New) -->
+                <div class="bg-white p-6 rounded-lg shadow-lg flex flex-col">
+                    <h2 class="font-semibold text-lg mb-4 text-gray-700">Market Share</h2>
+                    <canvas id="marketShareChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Data Table Section -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Recent Clients</h2>
+                <table class="min-w-full table-auto">
+                    <thead>
+                        <tr class="text-left border-b">
+                            <th class="py-2 px-4">Client Name</th>
+                            <th class="py-2 px-4">Email</th>
+                            <th class="py-2 px-4">Phone</th>
+                            <th class="py-2 px-4">Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-2 px-4">John Doe</td>
+                            <td class="py-2 px-4">johndoe@example.com</td>
+                            <td class="py-2 px-4">(555) 123-4567</td>
+                            <td class="py-2 px-4">Jan 1, 2023</td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-2 px-4">Jane Smith</td>
+                            <td class="py-2 px-4">janesmith@example.com</td>
+                            <td class="py-2 px-4">(555) 987-6543</td>
+                            <td class="py-2 px-4">Feb 15, 2023</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-xl font-semibold text-gray-700 mb-4">Notifications</h2>
+                <div class="space-y-4">
+                    <!-- Notification 1 -->
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-green-500 text-white p-3 rounded-full">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">New client registration</p>
+                            <p class="text-sm text-gray-500">John Doe has just signed up.</p>
+                        </div>
+                    </div>
+
+                    <!-- Notification 2 -->
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-yellow-500 text-white p-3 rounded-full">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">Offer expiration soon</p>
+                            <p class="text-sm text-gray-500">Offer "Spring Sale" will expire in 3 days.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Sales Overview Chart (Line Chart)
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(salesCtx, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+            datasets: [{
+                label: 'Sales',
+                data: [120, 150, 180, 170, 200, 220],
+                borderColor: '#4CAF50',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+
+    // Revenue by Region Chart (Bar Chart)
+    const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(revenueCtx, {
+        type: 'bar',
+        data: {
+            labels: ['North', 'South', 'East', 'West'],
+            datasets: [{
+                label: 'Revenue',
+                data: [5000, 8000, 6000, 7000],
+                backgroundColor: '#3498db',
+                borderColor: '#2980b9',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+
+    // Market Share Chart (Donut Chart)
+    const marketShareCtx = document.getElementById('marketShareChart').getContext('2d');
+    const marketShareChart = new Chart(marketShareCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Company A', 'Company B', 'Company C', 'Company D'],
+            datasets: [{
+                data: [40, 25, 20, 15],
+                backgroundColor: ['#3498db', '#e74c3c', '#f39c12', '#2ecc71'],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>

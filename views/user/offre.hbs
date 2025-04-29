@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VipJob.tn - Offres d'emploi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    .carousel-container {
+      transition: transform 0.7s ease-in-out;
+    }
+    .carousel-item {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gradient-to-b from-blue-50 to-white font-sans">
+
+  {{> header1 }}
+
+  <!-- Hero Section -->
+  <section class="relative w-full h-[60vh] bg-blue-500 overflow-hidden">
+    <!-- Carousel container -->
+    <div id="carousel" class="carousel-container absolute inset-0 flex">
+      <div class="carousel-item">
+        <div class="h-full bg-cover bg-center" style="background-image: url('https://img.freepik.com/free-photo/person-presenting-their-job-resignation_23-2149445123.jpg?ga=GA1.1.1280898021.1716310753&semt=ais_hybrid&w=740')">
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="h-full bg-cover bg-center" style="background-image: url('https://img.freepik.com/free-photo/business-job-interview-concept_1421-77.jpg?t=st=1745245997~exp=1745249597~hmac=410dd7e8bba926a327d6a2f79b18b29953a66740bcc07594cdb00b0dfc6c584a&w=1380')">
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="h-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80')">
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="absolute top-1/2 left-0 right-0 flex justify-between px-6">
+      <button id="prev" class="text-white text-3xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-70">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+      <button id="next" class="text-white text-3xl bg-black bg-opacity-50 p-2 rounded-full hover:bg-opacity-70">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Recherche Avancée -->
+    <div class="absolute bottom-[-5%] left-1/2 transform -translate-x-1/2 w-[95%] md:w-[80%] lg:w-[70%] bg-gradient-to-r from-white/30 via-white/40 to-white/30 backdrop-blur-md rounded-xl shadow-2xl p-6 md:p-8 border border-gray-200 z-10 transition-all duration-500">
+      <h2 class="text-2xl font-bold mb-4 text-blue-900"><i class="fas fa-sliders-h mr-2"></i>Recherche Avancée</h2>
+      <form id="advanced-search-form" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <input type="text" id="search-titre" placeholder="Titre de l'emploi" class="p-2 border rounded-md">
+        <select id="search-domaine" class="p-2 border rounded-md">
+           <option value="" disabled selected>Choisissez un domaine</option>
+         <option value="informatique">Informatique et Développement</option>
+    <option value="cybersecurite">Cybersécurité</option>
+    <option value="intelligence_artificielle">Intelligence Artificielle et Data Science</option>
+    <option value="telecom">Télécommunications et Réseaux</option>
+    <option value="electronique">Électronique et Automatisme</option>
+    <option value="sante">Médecine et Pharmacie</option>
+    <option value="paramedical">Paramédical et Biotechnologie</option>
+    <option value="education">Enseignement et Formation</option>
+    <option value="recherche">Recherche Scientifique</option>
+    <option value="industrie">Industrie et Fabrication</option>
+    <option value="automobile">Automobile et Aéronautique</option>
+    <option value="commerce">Commerce et Distribution</option>
+    <option value="banque">Banque, Assurance et Finance</option>
+    <option value="tourisme">Tourisme et Hôtellerie</option>
+    <option value="restauration">Restauration et Agroalimentaire</option>
+    <option value="transport">Transport et Logistique</option>
+    <option value="btp">Bâtiment, Travaux Publics et Architecture</option>
+    <option value="agriculture">Agriculture et Pêche</option>
+    <option value="energie">Énergie et Environnement</option>
+    <option value="juridique">Droit et Services Juridiques</option>
+    <option value="marketing">Marketing, Communication et Publicité</option>
+    <option value="gestion">Gestion et Ressources Humaines</option>
+    <option value="evenementiel">Événementiel</option>
+    <option value="audiovisuel">Audiovisuel et Journalisme</option>
+    <option value="art">Arts, Culture et Design</option>
+    <option value="sport">Sport et Bien-être</option>
+    <option value="social">Travail Social et Humanitaire</option>
+    <option value="securite">Sécurité et Défense</option>
+        </select>
+        <select id="search-type" class="p-2 border rounded-md">
+          <option value="">Tous types</option>
+          <option value="CDI">CDI</option>
+          <option value="CDD">CDD</option>
+        </select>
+        <button type="submit" class="col-span-1 md:col-span-3 w-full md:w-auto bg-blue-900 text-white font-semibold px-4 py-2 rounded-md hover:bg-blue-700 transition">
+          Rechercher
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Domain Filter -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-8">
+    <div class="w-full mb-6 relative h-10">
+      <div class="absolute right-[calc(93%+10px)]">
+        <select id="domain-filter" class="p-2 border rounded-md shadow-sm text-gray-700 focus:ring focus:ring-blue-200">
+          <option value="all">Toutes les offres</option>
+          <option value="my-domain">Offres de mon domaine</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-grow pt-12 pb-16 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Title -->
+      <div class="text-center mb-5">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-blue-900 mb-4">Offres d'emploi</h1>
+        <p class="text-gray-600 text-lg">Découvrez les meilleures opportunités professionnelles en Tunisie</p>
+      </div>
+      
+      <!-- Résultats des offres -->
+      <div id="offres-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      
+      <!-- Pagination -->
+      <div class="flex justify-between items-center mt-8">
+        <button id="prevPage" class="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50">Précédent</button>
+        <span id="pageInfo" class="text-gray-600"></span>
+        <button id="nextPage" class="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50">Suivant</button>
+      </div>
+    </div>
+  </main>
+  {{> footer }}
+
+<script>
+  // Carousel Logic
+  let carouselIndex = 0;
+  const carousel = document.getElementById('carousel');
+  const carouselItems = document.querySelectorAll('.carousel-item');
+  const totalCarouselItems = carouselItems.length;
+
+  function updateCarousel() {
+    carousel.style.transform = `translateX(-${carouselIndex * 100}%)`;
+  }
+
+  function nextCarouselItem() {
+    carouselIndex = (carouselIndex + 1) % totalCarouselItems;
+    updateCarousel();
+  }
+
+  function prevCarouselItem() {
+    carouselIndex = (carouselIndex - 1 + totalCarouselItems) % totalCarouselItems;
+    updateCarousel();
+  }
+
+  setInterval(nextCarouselItem, 4000);
+  document.getElementById('next').addEventListener('click', nextCarouselItem);
+  document.getElementById('prev').addEventListener('click', prevCarouselItem);
+
+  // Function to format date
+  function formatDate(dateString) {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR');
+  }
+
+  // Pagination variables
+  let currentPage = 1;
+  const itemsPerPage = 6; // Nombre d'offres par page
+  let offres = []; // Toutes les offres
+  let filteredOffres = []; // Offres filtrées
+
+  // Initialize pagination
+  function initPagination() {
+    updatePaginationButtons();
+    updatePageInfo();
+  }
+
+  // Update pagination buttons state
+  function updatePaginationButtons() {
+    const totalPages = Math.ceil(filteredOffres.length / itemsPerPage);
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages || totalPages === 0;
+  }
+
+  // Update page info text
+  function updatePageInfo() {
+    const totalPages = Math.ceil(filteredOffres.length / itemsPerPage);
+    const startItem = (currentPage - 1) * itemsPerPage + 1;
+    const endItem = Math.min(currentPage * itemsPerPage, filteredOffres.length);
+    
+    if (filteredOffres.length === 0) {
+      document.getElementById('pageInfo').textContent = "Aucune offre trouvée";
+    } else {
+      document.getElementById('pageInfo').textContent = 
+        `Page ${currentPage} sur ${totalPages} - Offres ${startItem} à ${endItem} sur ${filteredOffres.length}`;
+    }
+  }
+
+  // Get current page offers
+  function getCurrentPageOffres() {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredOffres.slice(startIndex, endIndex);
+  }
+
+  // Change page
+  function changePage(newPage) {
+    currentPage = newPage;
+    displayOffres(getCurrentPageOffres());
+    updatePaginationButtons();
+    updatePageInfo();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Event listeners for pagination buttons
+  document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 1) {
+      changePage(currentPage - 1);
+    }
+  });
+
+  document.getElementById('nextPage').addEventListener('click', () => {
+    const totalPages = Math.ceil(filteredOffres.length / itemsPerPage);
+    if (currentPage < totalPages) {
+      changePage(currentPage + 1);
+    }
+  });
+
+  // Toggle favorite function
+  function toggleFavorite(offreId) {
+    const userId = localStorage.getItem("userId");
+
+    const icon = document.getElementById(`fav-icon-${offreId}`);
+    const isFavorite = icon.classList.contains("fa-solid");
+
+    const url = "/favorites";
+    const data = { user_id: userId, offre_id: offreId };
+
+    if (!isFavorite) {
+      // Add to favorites
+      fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        icon.classList.remove("fa-regular", "text-gray-400");
+        icon.classList.add("fa-solid", "text-red-500");
+      })
+      .catch(err => console.error(err));
+    } else {
+      // Remove from favorites
+      fetch(url, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(res => res.json())
+      .then(res => {
+        icon.classList.remove("fa-solid", "text-red-500");
+        icon.classList.add("fa-regular", "text-gray-400");
+      })
+      .catch(err => console.error(err));
+    }
+  }
+
+  // Fetch job offers from API
+  async function fetchOffres() {
+    try {
+      const response = await fetch('/display-offres');
+      const data = await response.json();
+
+      if (data.success) {
+        offres = data.offres; // Store fetched offers
+        filteredOffres = [...offres]; // Initialize filtered offers with all offers
+        changePage(1); // Display first page
+      } else {
+        document.getElementById('offres-container').innerHTML = "<p class='text-gray-600'>Aucune offre disponible.</p>";
+      }
+    } catch (error) {
+      console.error("Erreur lors de la récupération des offres:", error);
+      document.getElementById('offres-container').innerHTML = "<p class='text-red-500'>Erreur de chargement des offres.</p>";
+    }
+  }
+
+  async function loadFavorites(userId) {
+    try {
+      const response = await fetch(`/favorites/${userId}`);
+      const favorites = await response.json();
+      return favorites.map(fav => fav.id);
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+      return [];
+    }
+  } 
+
+  async function displayOffres(offresList) {
+    const container = document.getElementById('offres-container');
+    container.innerHTML = '';
+
+    const userId = localStorage.getItem("userId");
+    const favoriteOffers = userId ? await loadFavorites(userId) : [];
+
+    if (offresList.length === 0) {
+      container.innerHTML = "<p class='text-gray-600 col-span-3 text-center py-8'>Aucune offre correspond à vos critères.</p>";
+      return;
+    }
+
+    offresList.forEach(offre => {
+      const isFav = favoriteOffers.includes(offre.id);
+
+      const heartIconClass = isFav
+        ? 'fa-solid fa-heart text-red-500'
+        : 'fa-regular fa-heart text-gray-400';
+
+      const offreHTML = `
+        <div class="max-w-md w-full bg-white shadow-lg rounded-2xl overflow-hidden transition hover:shadow-xl hover:scale-105 duration-300 m-4">
+              ${offre.image ? `
+          <img src="/uploads/${offre.image}" alt="${offre.titre}" class="w-full h-48 object-cover">
+        ` : `
+          <div class="w-full h-48 bg-gray-200 flex items-center justify-center text-gray-400 text-sm">
+            Pas d'image disponible
+          </div>
+        `}
+          <div class="relative p-6">
+            <!-- Favorite Button -->
+            <button onclick="toggleFavorite('${offre.id}')"
+              class="absolute top-4 right-4 text-xl hover:scale-110 transition">
+              <i id="fav-icon-${offre.id}" class="${heartIconClass}"></i>
+            </button>
+
+            <!-- Header -->
+            <h2 class="text-xl font-bold text-gray-900 mb-2 truncate">${offre.titre}</h2>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-3">${offre.description}</p>
+
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="flex items-center gap-1 text-xs bg-blue-100 text-blue-800 font-medium px-3 py-1 rounded-full shadow-sm">
+                <i class="fas fa-briefcase text-blue-500"></i> ${offre.domaine}
+              </span>
+              <span class="flex items-center gap-1 text-xs bg-green-100 text-green-800 font-medium px-3 py-1 rounded-full shadow-sm">
+                <i class="fas fa-calendar-alt text-green-500"></i> Début: ${formatDate(offre.date_creation)}
+              </span>
+              <span class="flex items-center gap-1 text-xs bg-red-100 text-red-800 font-medium px-3 py-1 rounded-full shadow-sm">
+                <i class="fas fa-hourglass-end text-red-500"></i> Fin: ${formatDate(offre.date_fin)}
+              </span>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="mt-4">
+              <button onclick="postuler('${offre.id}')"
+                id="postuler-btn-${offre.id}"
+                class="w-full flex items-center justify-center gap-2 bg-blue-600 text-white text-sm font-semibold py-3 rounded-full transition hover:bg-blue-700 shadow-md">
+                <span class="spinner hidden w-4 h-4 border-2 border-t-transparent border-white rounded-full animate-spin"></span>
+                <span class="btn-text">Postuler</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML += offreHTML;
+    });
+  }
+
+  function postuler(offreId) {
+    const utilisateurId = localStorage.getItem("userId");
+
+    // Show loading spinner
+    Swal.fire({
+      title: 'Postulation en cours...',
+      text: 'Veuillez patienter.',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    fetch("/postuler", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        utilisateur_id: utilisateurId,
+        offre_id: offreId
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      Swal.close(); // Close loading
+
+      if (data.success) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Succès',
+          text: data.message
+        });
+      } else {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Oups...',
+          text: data.message
+        });
+      }
+    })
+    .catch(error => {
+      Swal.close(); // Close loading
+      console.error("Erreur lors de la postulation :", error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Erreur',
+        text: 'Une erreur est survenue lors de la postulation.'
+      });
+    });
+  }
+
+  // Filter job offers by domain
+  function filterOffresByDomain(selectedDomain) {
+    let storedDomain = localStorage.getItem("domain");
+
+    if (!storedDomain) {
+      console.warn("Aucun domaine trouvé dans localStorage. Affichage de toutes les offres.");
+      storedDomain = "all"; // Default value if no domain is stored
+    }
+
+    if (selectedDomain === "all") {
+      filteredOffres = [...offres]; // Show all offers
+    } else {
+      filteredOffres = offres.filter(offre => offre.domaine === storedDomain);
+    }
+
+    currentPage = 1; // Reset to first page when filtering
+    changePage(1);
+  }
+
+  // Advanced search function
+  document.getElementById('advanced-search-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const titre = document.getElementById('search-titre').value;
+    const domaine = document.getElementById('search-domaine').value;
+    const type = document.getElementById('search-type').value;
+
+    try {
+      const response = await fetch(`/search-offre?titre=${titre}&domaine=${domaine}&type_contrat=${type}`);
+      const data = await response.json();
+
+      if (data.success) {
+        filteredOffres = data.offres;
+        currentPage = 1; // Reset to first page
+        changePage(1);
+      } else {
+        filteredOffres = [];
+        changePage(1);
+      }
+    } catch (error) {
+      console.error("Erreur de recherche avancée:", error);
+    }
+  });
+
+  // Load job offers and add event listener for filter
+  document.addEventListener('DOMContentLoaded', () => {
+    fetchOffres();
+    initPagination();
+
+    document.getElementById('domain-filter').addEventListener('change', (e) => {
+      filterOffresByDomain(e.target.value);
+    });
+  });
+</script>
+
+</body>
+</html>

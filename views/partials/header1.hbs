@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIPJOB.TN</title>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x/dist/cdn.min.js" defer></script>
+    <script>
+        function handleLogout(event) {
+            event.preventDefault(); // Prevent default link behavior
+
+            // Clear localStorage and sessionStorage
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Redirect the user to the login page
+            window.location.href = "/login";
+        }
+
+        // Function to handle the redirection to the favorites page
+        function goToFavorites() {
+            const userId = localStorage.getItem('userId'); // Retrieve user ID from localStorage
+
+          
+                // Redirect to the favorites page
+                window.location.href = `/favorite-offres`;
+            
+        }
+
+        // This function runs when the DOM content is loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            // Retrieve user ID from localStorage
+            const userId = localStorage.getItem("user_id");
+
+            if (userId) {
+                // Optionally log the user ID to verify
+                console.log('User ID retrieved:', userId);
+            } else {
+                // Handle the case where user ID is not in localStorage
+                console.log("No user ID found in localStorage.");
+            }
+
+            // Toggle Profile Dropdown
+            document.getElementById("profileButton").addEventListener("click", function () {
+                const menu = document.getElementById("menu");
+                menu.classList.toggle("hidden");
+            });
+        });
+    </script>
+    <style>
+        .hover-lift {
+            transition: transform 0.2s ease-in-out;
+        }
+        .hover-lift:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+   <nav class="bg-white p-12 shadow-md">
+<header
+    x-data="{ scrolled: false, mobileMenuOpen: false }"
+    x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
+    :class="scrolled ? 'glass-card py-2' : 'bg-transparent py-4'"
+    class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bb"
+>
+    <div class="container mx-auto flex justify-between items-center px-4">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2 text-xl font-medium animate-fade-in" @click="mobileMenuOpen = false">
+            <div class="flex items-center space-x-2 bg-white border rounded-md p-2">
+                <img src="assets/img/job.png" alt="Logo" class="h-12 w-12 object-cover align-middle">
+                <span class="text-3xl font-bold tracking-wide">VIPJOB.TN</span>
+            </div> 
+        </a>
+
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex items-center gap-8 animate-fade-in">
+            <a href="/offre" class="flex text-white items-center py-2 transition-all duration-300 hover-lift text-primary/70 hover:text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Offres de travail
+            </a>
+            <a href="/jobs" class="text-blue-600 font-medium border-b-2 border-blue-600 pb-1">
+              <i class="fas fa-search mr-1"></i> Browse Jobs
+            </a>
+            <!-- Favoris as Button with onclick event -->
+            <button onclick="goToFavorites()" class="flex text-black items-center py-2 transition-all duration-300 hover-lift text-primary/70 hover:text-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                </svg>
+                Favoris
+            </button>
+
+           
+  <!-- Notification Bell -->
+                <div class="relative mr-4">
+                    <!-- Bell Icon -->
+                    <button id="notification-button" onclick="toggleNotificationDropdown()" class="relative text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
+                          viewBox="0 0 24 24" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V4a2 2 0 10-4 0v1.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                        </svg>
+                        
+                        <!-- Notification Badge -->
+                        <span id="notification-count" class="absolute -top-1 -right-1 text-xs bg-red-600 text-white rounded-full px-1.5 py-0.5 hidden">0</span>
+                    </button>
+
+                    <!-- Notification Dropdown -->
+                    <div id="notification-dropdown" class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg border border-gray-200 z-50 hidden">
+                        <div class="p-2 border-b font-semibold text-gray-700">Notifications</div>
+                        <ul id="notification-list" class="max-h-64 overflow-y-auto">
+                            <!-- No notifications message -->
+                            <li id="no-notifications" class="p-2 text-sm text-gray-400 text-center italic">Aucune notification</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            <!-- Profile Avatar -->
+            <div class="relative">
+                <button id="profileButton" class="h-9 w-9 rounded-full overflow-hidden hover:ring-2 hover:ring-gray-300 transition">
+                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158" alt="Photo de profil" class="h-full w-full object-cover" />
+                </button>
+
+                <!-- Profile Dropdown Menu -->
+                <div id="menu" class="hidden absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200">
+                    <a href="/profile" class="flex items-center text-black py-2 transition-all duration-300 hover-lift text-primary/70 hover:text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        Profile
+                    </a>
+                    <a href="/login" onclick="handleLogout(event)" class="flex items-center py-2 transition-all duration-300 hover-lift text-red-600 hover:text-red-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="14" x="2" y="5" rx="2" ry="2"/>
+                            <line x1="2" x2="22" y1="10" y2="10"/>
+                        </svg> 
+                        Déconnexion
+                    </a>    
+                </div>   
+            </div>
+        </nav>
+    </div>
+</header>
+</nav>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve the user_id from localStorage or sessionStorage
+        const userId = localStorage.getItem('userId') ;
+        
+        
+        // Ensure that the user_id exists
+        if (userId) {
+            const favoritesLink = document.getElementById('favoritesLink');
+            
+            // Set the href attribute dynamically
+            favoritesLink.setAttribute('href', `/favorites/${userId}`);
+            
+            // Optionally, log the URL to verify
+            console.log('Favorites link updated to:', `/favorites/${userId}`);
+        } else {
+            console.error('User ID not found in localStorage or sessionStorage.');
+            // Handle the error, maybe redirect to login page
+            // window.location.href = '/login'; 
+        }
+    });
+</script>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+
+
+
+<script>
+  // Simulate new notifications being received
+  document.addEventListener('DOMContentLoaded', function() {
+    const alpineComponent = document.querySelector('[x-data]');
+    const $data = alpineComponent.__x.$data;
+
+    // Simulate new notifications every 3 seconds
+    setInterval(() => {
+      const newNotif = {
+        title: `New Notification ${$data.count + 1}`,
+        location: `Location ${$data.count + 1}`,
+      };
+
+      // Add new notification to the list and update the count
+      $data.notifications.push(newNotif);
+      $data.count++;
+    }, 3000);
+  });
+</script>
+
+
+<script>
+  const notificationCount = document.getElementById("notification-count");
+  const notificationDropdown = document.getElementById("notification-dropdown");
+  const notificationList = document.getElementById("notification-list");
+
+  let count = 0;
+
+  function toggleNotificationDropdown() {
+    notificationDropdown.classList.toggle("hidden");
+  }
+
+  const socket = io();
+
+  socket.on("new-offre-notification", (data) => {
+    console.log('Received notification data:', data);
+    
+    // Clear "no notifications" if it exists
+    if (notificationList.children.length === 1 &&
+        notificationList.children[0].classList.contains("italic")) {
+        notificationList.innerHTML = '';  // Clear the "No notifications" message
+    }
+
+    // Create a new notification item
+    const li = document.createElement("li");
+    li.className = "p-2 hover:bg-gray-100 border-b border-gray-200";
+    li.innerHTML = `📢 Nouvelle offre: <strong>${data.title}</strong> (${data.domaine}) - <strong>${data.type}</strong> <br> <span class="text-sm">Location: ${data.location} | Start Date: ${data.startDate}</span>`;
+
+    // Prepend the new notification to the list
+    notificationList.prepend(li);
+
+    // Update the notification counter
+    count++;
+
+    // Update the notification badge with the count
+    if (notificationCount) {
+      notificationCount.textContent = count;
+      notificationCount.classList.remove("hidden");
+    }
+
+    // Automatically hide badge after 10 seconds if count goes back to 0
+    setTimeout(() => {
+      if (count === 0) {
+        notificationCount.classList.add("hidden");
+      }
+    }, 10000);  // Hide after 10 seconds
+  });
+</script>
+
+</body>
+</html>
