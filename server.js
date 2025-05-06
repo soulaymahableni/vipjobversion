@@ -124,9 +124,10 @@ transporter.verify((error, success) => {
     console.log("Serveur SMTP prêt à envoyer des e-mails");
   }
 });
-
+// permet de connecter a twilio:
 const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID,
+  //mot de passe secret (token)
   process.env.TWILIO_AUTH_TOKEN
 );
 
@@ -172,9 +173,7 @@ app.get("/profile", (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login"); // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
   }
-  app.get("/abonnement", (req, res) => {
-    res.render("user/abonnement");
-  });
+  
   // Afficher la page de tableau de bord
   res.render("user/profile", { title: "Tableau de bord - VipJob.tn", user: req.session.user });
 });
@@ -515,6 +514,7 @@ app.post("/profil/:id", (req, res) => {
 // Nouvelle route pour générer le PDF
 const upload = multer({ dest: 'uploads/' });
 
+
 app.post('/api/generate-cv', upload.single('photo'), (req, res) => {
   try {
     const data = req.body;
@@ -534,8 +534,10 @@ app.post('/api/generate-cv', upload.single('photo'), (req, res) => {
     // 🔵 Bannière Bleue
     doc.rect(0, 0, doc.page.width, 100).fill('#1E88E5'); // Couleur bleu
     doc.fillColor('white').fontSize(24).font('Helvetica-Bold').text(`${data.prenom} ${data.nom}`, { align: 'center' });
-    doc.fontSize(16).text('INFORMATIQUE', { align: 'center' });
-    doc.moveDown(2);
+res.setHeader('Content-Disposition', `attachment; filename="CV_${data.domaine}.pdf"`);
+
+doc.fontSize(16).text(`${data.domaine}`, { align: 'center' });
+        doc.moveDown(2);
     doc.fillColor('black'); // Revenir à la couleur noire
 
     // 🖼️ Ajout de la photo
@@ -565,11 +567,11 @@ app.post('/api/generate-cv', upload.single('photo'), (req, res) => {
 
     // 📍 À propos de moi
     drawSectionTitle('À propos de moi');
-    drawText(data.bio?.trim() || "Pas d'informations disponibles");
+    drawText(data.bio?.trim() || 'Pas d’informations disponibles');
 
     // 🎓 Formation
-    drawSectionTitle('Formation');
-    drawText(data.formation || 'Non spécifiée');
+    drawSectionTitle('diplome');
+    drawText(data.diplome || 'Non spécifiée');
 
     // 🏆 Expérience
     drawSectionTitle('Expérience');
@@ -596,34 +598,7 @@ app.post('/api/generate-cv', upload.single('photo'), (req, res) => {
   }
 });
 
-// Route pour s'abonner
-app.post('/abonnement/subscribe', (req, res) => {
-  const { duration, price } = req.body;
-  const userId = req.session.user.id;
-  const dateDeDebut = new Date();
-  const dateDeFin = new Date();
 
-  // Calcul de la date de fin selon la durée de l'abonnement (en mois)
-  dateDeFin.setMonth(dateDeDebut.getMonth() + duration);
-
-  const abonnementData = {
-    id_utilisateur: userId,
-    date_debut: dateDeDebut.toISOString().split('T')[0], // Format YYYY-MM-DD
-    date_fin: dateDeFin.toISOString().split('T')[0],
-    montant: price,
-    type_abonnement: duration === 1 ? 'Mensuel' : (duration === 3 ? 'Trimestriel' : 'Annuel')
-  };
-
-  // Insérer dans la table 'abonnement'
-  const query = 'INSERT INTO abonnement SET ?';
-  db.query(query, abonnementData, (err, result) => {
-    if (err) {
-      console.error('Erreur lors de l\'abonnement:', err);
-      return res.status(500).json({ success: false, message: 'Erreur lors de l\'abonnement' });
-    }
-    res.status(200).json({ success: true, message: 'Abonnement réussi' });
-  });
-});
 
 
 // Fonction de hachage du mot de passe avec `crypto`
@@ -668,7 +643,7 @@ app.post('/create-user', (req, res) => {
 
       res.status(201).json({
         success: true,
-        message: 'User created successfully',
+        message: 'Utilisateur creer avec succées',
         userId: result.insertId
       });
     });

@@ -33,7 +33,7 @@
     <section class="py-12">
       <div class="container mx-auto max-w-4xl">
         <div class="mb-12 text-center animate-slide-up">
-          <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Votre Profil Professionnel</h1>
+          <h1 class="text-3xl md:text-4xl font-bold mb-4 text-[#414a8f]">Votre Profil Professionnel</h1>
 
           <p class="text-muted-foreground max-w-2xl mx-auto">
             Personnalisez votre profil pour recevoir des offres d'emploi adaptées à vos compétences et préférences
@@ -47,7 +47,7 @@
               class="rounded-full w-32 h-32 border-4 mb-4 transition-transform duration-300 hover:scale-105 ring ring-gray-300">
             <input type="file" name="profile" id="upload_profile" hidden required onchange="updateProfilePicture()">
             <label for="upload_profile"
-              class="px-5 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 cursor-pointer transition-colors duration-300">
+              class="px-5 py-2 bg-[#414a8f] text-white rounded-lg hover:bg-[#414a8f] cursor-pointer transition-colors duration-300">
               Changer la photo de profil
             </label>
           </div>
@@ -204,7 +204,7 @@
                   <input x-model="newSkill" placeholder="Ajouter une compétence"
                     class="h-12 flex-grow px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-gray-800">
                   <button type="button" @click="addSkill"
-                    class="h-12 px-4 bg-gray-800 hover:bg-gray-800 text-white rounded-md transition-colors flex items-center gap-2">
+                    class="h-12 px-4 bg-[#414a8f] hover:bg-[#414a8f] text-white rounded-md transition-colors flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none"
                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                       <circle cx="12" cy="12" r="10" />
@@ -334,7 +334,7 @@
               class="pt-6 animate-fade-in animation-delay-2000 flex flex-col md:flex-row justify-between gap-4 w-full">
               <!-- Bouton gauche -->
               <button type="button"
-                class="h-12 px-8 bg-gray-800 hover:bg-gray-900 text-white rounded-md w-full md:w-auto flex items-center justify-center gap-2 group shadow-md transition-colors order-1 md:order-none"
+                class="h-12 px-8 bg-[#414a8f] hover:bg-[#414a8f] text-white rounded-md w-full md:w-auto flex items-center justify-center gap-2 group shadow-md transition-colors order-1 md:order-none"
                 onclick="generateCV()">
                 Créer CV
                 <svg xmlns="http://www.w3.org/2000/svg"

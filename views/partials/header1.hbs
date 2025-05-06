@@ -66,39 +66,37 @@
 >
     <div class="container mx-auto flex justify-between items-center px-4">
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2 text-xl font-medium animate-fade-in" @click="mobileMenuOpen = false">
-            <div class="flex items-center space-x-2 bg-white border rounded-md p-2">
-                <img src="assets/img/job.png" alt="Logo" class="h-12 w-12 object-cover align-middle">
+        <a href="/" class="flex items-center gap-2 text-xl font-bold animate-fade-in text-[#414a8f]" @click="mobileMenuOpen = false">
+            <div class="flex items-center space-x-2">
+                <img src="assets/img/LOGO-removebg-preview.png" alt="Logo" class="h-24 w-16  object-cover align-middle">
                 <span class="text-3xl font-bold tracking-wide">VIPJOB.TN</span>
             </div> 
         </a>
 
         <!-- Desktop Menu -->
         <nav class="hidden md:flex items-center gap-8 animate-fade-in">
-            <a href="/offre" class="flex text-white items-center py-2 transition-all duration-300 hover-lift text-primary/70 hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <a href="/offre" class="flex items-center py-2 transition-all duration-300 hover-lift text-[#414a8f] font-bold hover:text-[#414a8f]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1 text-[#414a8f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                 </svg>
                 Offres de travail
             </a>
-            <a href="/jobs" class="text-blue-600 font-medium border-b-2 border-blue-600 pb-1">
-              <i class="fas fa-search mr-1"></i> Browse Jobs
+            <a href="/jobs" class="flex items-center py-2 transition-all duration-300 hover-lift text-[#414a8f] font-bold hover:text-[#414a8f]">
+              <i class="fas fa-search mr-1 text-[#414a8f]"></i> Parcourir les emplois
             </a>
             <!-- Favoris as Button with onclick event -->
-            <button onclick="goToFavorites()" class="flex text-black items-center py-2 transition-all duration-300 hover-lift text-primary/70 hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <button onclick="goToFavorites()" class="flex items-center py-2 transition-all duration-300 hover-lift text-[#414a8f] font-bold hover:text-[#414a8f]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1  text-[#414a8f]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="20" height="14" x="2" y="7" rx="2" ry="2"/>
                     <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
                 </svg>
                 Favoris
             </button>
-
-           
   <!-- Notification Bell -->
                 <div class="relative mr-4">
                     <!-- Bell Icon -->
-                    <button id="notification-button" onclick="toggleNotificationDropdown()" class="relative text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <button id="notification-button" onclick="toggleNotificationDropdown()" class="relative p-1 text-[#414a8f] rounded-full hover:bg-secondary transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" stroke="currentColor"
                           viewBox="0 0 24 24" stroke-width="2">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -247,3 +245,4 @@
 
 </body>
 </html>
+
